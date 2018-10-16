@@ -9,6 +9,7 @@ namespace HelpPC\Serializer;
 
 
 use HelpPC\Serializer\Handler\SplFileInfoHandler;
+use HelpPC\Serializer\Handler\UuidSerializerHandler;
 use JMS\Serializer\Handler\HandlerRegistry;
 use JMS\Serializer\Naming\IdenticalPropertyNamingStrategy;
 use JMS\Serializer\Naming\SerializedNameAnnotationStrategy;
@@ -25,6 +26,7 @@ class SerializerFactory
         );
         $serializer->addDefaultHandlers()->configureHandlers(function (HandlerRegistry $registry) {
             $registry->registerSubscribingHandler(new SplFileInfoHandler());
+            $registry->registerSubscribingHandler(new UuidSerializerHandler());
         });
         return $serializer->build();
     }

@@ -24,16 +24,19 @@ class SplFileInfo extends \SplFileInfo
         return $this->temp;
     }
 
-    protected static function getTempNam(string $type): string
+
+    protected static function getTempNam(string $type): ?string
     {
         $filePath = tempnam(sys_get_temp_dir(), $type);
-        return $filePath;
+
+        return !$filePath ? null : $filePath;
     }
 
     public function __destruct()
     {
-        if ($this->temp && file_exists($this->getRealPath())) {
-            @unlink($this->getRealPath());
+        $filePath = $this->getRealPath();
+        if ($filePath !== false && $this->temp && file_exists($filePath)) {
+            @unlink($filePath);
         }
     }
 
@@ -41,7 +44,10 @@ class SplFileInfo extends \SplFileInfo
     {
         $obj = new static(self::getTempNam((string)strtotime('now')), true);
         if ($content !== null) {
-            @file_put_contents($obj->getRealPath(), $content);
+            $filePath = $obj->getRealPath();
+            if ($filePath !== false) {
+                @file_put_contents($filePath, $content);
+            }
         }
         return $obj;
     }

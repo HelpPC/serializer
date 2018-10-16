@@ -11,39 +11,52 @@ use HelpPC\Serializer\Utils\SplFileInfo;
 use JMS\Serializer\Context;
 use JMS\Serializer\GraphNavigator;
 use JMS\Serializer\Handler\SubscribingHandlerInterface;
+use JMS\Serializer\VisitorInterface;
 use JMS\Serializer\XmlDeserializationVisitor;
 use JMS\Serializer\XmlSerializationVisitor;
 
 class SplFileInfoHandler implements SubscribingHandlerInterface
 {
-    public static function getSubscribingMethods()
+    private const TYPE = 'base64File';
+
+
+    public static function getSubscribingMethods(): array
     {
-        return array(
-            array(
+        $formats = [
+            'json',
+            'xml',
+            'yml',
+        ];
+        $methods = [];
+        foreach ($formats as $format) {
+            $methods[] = [
                 'direction' => GraphNavigator::DIRECTION_SERIALIZATION,
-                'format' => 'xml',
-                'type' => 'HelpPC\Serializer\Utils\SplFileInfo',
-                'method' => 'serializeSplFileInfoXml',
-            ), array(
+                'type' => self::TYPE,
+                'format' => $format,
+                'method' => 'serializeSplFileInfo',
+            ];
+            $methods[] = [
                 'direction' => GraphNavigator::DIRECTION_DESERIALIZATION,
-                'format' => 'xml',
-                'type' => 'HelpPC\Serializer\Utils\SplFileInfo',
-                'method' => 'deserializeXml2SplFileInfo',
-            ),
-        );
+                'type' => self::TYPE,
+                'format' => $format,
+                'method' => 'deserializeSplFileInfo',
+            ];
+        }
+        return $methods;
     }
 
-    public function serializeSplFileInfoXml(XmlSerializationVisitor $visitor, SplFileInfo $date, array $type, Context $context)
+
+    public function serializeSplFileInfo(VisitorInterface $visitor, SplFileInfo $content, array $type, Context $context)
     {
 
-        return $visitor->visitString(base64_encode($date->getContents()), $type, $context);
+        return $visitor->visitString(base64_encode($content->getContents()), $type, $context);
     }
 
-    public function deserializeXml2SplFileInfo(XmlDeserializationVisitor $visitor, $date, array $type, Context $context)
+    public function deserializeSplFileInfo(VisitorInterface $visitor, $content, array $type, Context $context)
     {
-        if ((string)$date == null) {
+        if ((string)$content == null) {
             return null;
         }
-        return SplFileInfo::createInTemp(base64_decode((string)$date));
+        return SplFileInfo::createInTemp(base64_decode((string)$content));
     }
 }
