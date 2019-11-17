@@ -48,14 +48,12 @@ class SplFileInfoHandler implements SubscribingHandlerInterface
 
     public function serializeSplFileInfo(VisitorInterface $visitor, SplFileInfo $content, array $type, Context $context)
     {
-bdump($type,'serialize');
+
         return $visitor->visitString(base64_encode($content->getContents()), $type, $context);
     }
 
     public function deserializeSplFileInfo(VisitorInterface $visitor, $content, array $type, Context $context)
     {
-
-        bdump($type,'deserialize');
         if ((string)$content == null) {
             return null;
         }
