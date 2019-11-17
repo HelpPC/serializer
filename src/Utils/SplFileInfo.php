@@ -1,16 +1,16 @@
 <?php declare(strict_types=1);
-/**
- * Created by PhpStorm.
- * User: Tomas Kulhanek
- * Email: info@tirus.cz
- */
 
 namespace HelpPC\Serializer\Utils;
+
+use JMS\Serializer\Annotation as Serializer;
 
 class SplFileInfo extends \SplFileInfo
 {
 
-    /** @var bool */
+    /**
+     * @var bool
+     * @Serializer\Exclude()
+     */
     private $temp;
 
     public function __construct($file_name, $temp = false)
