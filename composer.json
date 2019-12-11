@@ -16,7 +16,7 @@
   ],
   "require": {
     "php": ">=7.0",
-    "jms/serializer": "^1.13",
+    "jms/serializer": "^3.3",
     "ramsey/uuid": "^3.8",
     "symfony/yaml": "^4.2"
   },
