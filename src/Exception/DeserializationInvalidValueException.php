@@ -11,8 +11,8 @@ namespace HelpPC\Serializer\Exception;
 
 class DeserializationInvalidValueException extends \Exception
 {
-    /** @var string */
-    private $fieldPath;
+    private string $fieldPath;
+
     public function __construct(string $fieldPath, \Throwable $exception)
     {
         parent::__construct(
@@ -22,6 +22,7 @@ class DeserializationInvalidValueException extends \Exception
         );
         $this->fieldPath = $fieldPath;
     }
+
     public function getFieldPath(): string
     {
         return $this->fieldPath;

@@ -11,10 +11,9 @@ namespace HelpPC\Serializer\Exception;
 
 class InvalidUuidException extends \Exception
 {
-    /** @var string */
-    private $invalidUuid;
+    private string $invalidUuid;
 
-    public function __construct(string $invalidUuid, ?\Throwable $exception = null)
+    public function __construct(string $invalidUuid, ?\Throwable $exception = NULL)
     {
         parent::__construct(
             sprintf('"%s" is not a valid UUID', $invalidUuid),
