@@ -8,6 +8,7 @@
 namespace HelpPC\Serializer;
 
 
+use HelpPC\Serializer\Handler\EnumSerializerHandler;
 use HelpPC\Serializer\Handler\SplFileInfoHandler;
 use HelpPC\Serializer\Handler\UuidSerializerHandler;
 use JMS\Serializer\Handler\HandlerRegistry;
@@ -27,6 +28,7 @@ class SerializerFactory
         $serializer->addDefaultHandlers()->configureHandlers(function (HandlerRegistry $registry) {
             $registry->registerSubscribingHandler(new SplFileInfoHandler());
             $registry->registerSubscribingHandler(new UuidSerializerHandler());
+            $registry->registerSubscribingHandler(new EnumSerializerHandler());
         });
         return $serializer->build();
     }
