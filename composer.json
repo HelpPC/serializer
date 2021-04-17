@@ -14,16 +14,6 @@
       "homepage": "https://tirus.cz"
     }
   ],
-	"config": {
-		"optimize-autoloader": true,
-		"preferred-install": {
-			"*": "dist"
-		},
-		"sort-packages": true,
-		"platform": {
-			"php": "8.0.3"
-		}
-	},
   "require": {
     "php": ">=8.0",
     "jms/serializer": "^3.12",
